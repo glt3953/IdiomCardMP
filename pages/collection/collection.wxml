@@ -1,0 +1,63 @@
+<!--pages/collection/collection.wxml-->
+<view class="page">
+  <!-- 头部统计 -->
+  <view class="header-stats card">
+    <view class="stats-content">
+      <view class="stats-icon">❤️</view>
+      <view class="stats-info">
+        <view class="stats-title">我的收藏</view>
+        <view class="stats-count">共收藏了 {{collections.length}} 个成语</view>
+      </view>
+    </view>
+    <view class="stats-actions" wx:if="{{collections.length > 0}}">
+      <button class="clear-btn" bindtap="clearAllCollections">清空</button>
+    </view>
+  </view>
+
+  <!-- 收藏列表 -->
+  <view class="collections-list" wx:if="{{collections.length > 0}}">
+    <view class="collection-item card" wx:for="{{collections}}" wx:key="id" bindtap="viewIdiom" data-id="{{item.id}}">
+      <view class="item-content">
+        <view class="item-header">
+          <view class="idiom-name">{{item.idiom}}</view>
+          <view class="item-actions">
+            <view class="difficulty-tag difficulty-chuji" wx:if="{{item.difficulty === '初级'}}">{{item.difficulty}}</view>
+            <view class="difficulty-tag difficulty-zhongji" wx:if="{{item.difficulty === '中级'}}">{{item.difficulty}}</view>
+            <view class="difficulty-tag difficulty-gaoji" wx:if="{{item.difficulty === '高级'}}">{{item.difficulty}}</view>
+            <view class="remove-btn" bindtap="removeCollection" data-id="{{item.id}}" catchtap="true">×</view>
+          </view>
+        </view>
+        <view class="idiom-pinyin">{{item.pinyin}}</view>
+        <view class="idiom-meaning">{{item.meaning}}</view>
+        <view class="item-footer">
+          <view class="category-tag">{{item.category}}</view>
+          <view class="collect-time">{{item.collectTime}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{collections.length === 0}}">
+    <view class="empty-icon">📚</view>
+    <view class="empty-title">还没有收藏任何成语</view>
+    <view class="empty-desc">在学习过程中点击❤️即可收藏喜欢的成语</view>
+    <button class="btn-primary" bindtap="goToHome">去学习</button>
+  </view>
+
+  <!-- 批量操作模式 -->
+  <view class="batch-actions" wx:if="{{batchMode && collections.length > 0}}">
+    <view class="batch-info">
+      <text>已选择 {{selectedCount}} 个</text>
+    </view>
+    <view class="batch-buttons">
+      <button class="btn-secondary" bindtap="cancelBatch">取消</button>
+      <button class="btn-primary" bindtap="batchRemove" disabled="{{selectedCount === 0}}">删除选中</button>
+    </view>
+  </view>
+
+  <!-- 浮动操作按钮 -->
+  <view class="fab" wx:if="{{collections.length > 0}}" bindtap="toggleBatchMode">
+    <text class="fab-icon">{{batchMode ? '✓' : '⚙️'}}</text>
+  </view>
+</view>

@@ -1,0 +1,72 @@
+<!--pages/index/index.wxml-->
+<view class="page">
+  <!-- 头部统计 -->
+  <view class="header-stats card">
+    <view class="stats-item">
+      <text class="stats-number text-primary">{{progress.totalLearned}}</text>
+      <text class="stats-label">已学习</text>
+    </view>
+    <view class="stats-item">
+      <text class="stats-number text-primary">{{progress.todayLearned}}</text>
+      <text class="stats-label">今日学习</text>
+    </view>
+    <view class="stats-item">
+      <text class="stats-number text-primary">{{totalIdioms}}</text>
+      <text class="stats-label">总数量</text>
+    </view>
+  </view>
+
+  <!-- 学习模式选择 -->
+  <view class="learning-modes">
+    <view class="mode-title">学习模式</view>
+    
+    <view class="mode-card card" bindtap="startRandomLearning">
+      <view class="mode-icon">🎲</view>
+      <view class="mode-content">
+        <view class="mode-name">随机学习</view>
+        <view class="mode-desc">随机选择成语进行学习</view>
+      </view>
+      <view class="mode-arrow">></view>
+    </view>
+
+    <view class="mode-card card" bindtap="startSequentialLearning">
+      <view class="mode-icon">📚</view>
+      <view class="mode-content">
+        <view class="mode-name">顺序学习</view>
+        <view class="mode-desc">按顺序逐个学习成语</view>
+      </view>
+      <view class="mode-arrow">></view>
+    </view>
+
+    <view class="mode-card card" bindtap="startDifficultyLearning">
+      <view class="mode-icon">⭐</view>
+      <view class="mode-content">
+        <view class="mode-name">难度学习</view>
+        <view class="mode-desc">按难度分类学习</view>
+      </view>
+      <view class="mode-arrow">></view>
+    </view>
+  </view>
+
+  <!-- 分类浏览 -->
+  <view class="categories">
+    <view class="category-title">分类浏览</view>
+    <view class="category-grid">
+      <view class="category-item" wx:for="{{categories}}" wx:key="name" bindtap="browseCategory" data-category="{{item.name}}">
+        <view class="category-icon">{{item.icon}}</view>
+        <view class="category-name">{{item.name}}</view>
+        <view class="category-count">{{item.count}}个</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日推荐 -->
+  <view class="recommendation card" wx:if="{{recommendedIdiom}}">
+    <view class="rec-title">今日推荐</view>
+    <view class="rec-content" bindtap="viewRecommended">
+      <view class="rec-idiom">{{recommendedIdiom.idiom}}</view>
+      <view class="rec-pinyin">{{recommendedIdiom.pinyin}}</view>
+      <view class="rec-meaning">{{recommendedIdiom.meaning}}</view>
+    </view>
+  </view>
+</view>

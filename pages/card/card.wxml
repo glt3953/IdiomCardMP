@@ -1,0 +1,114 @@
+<!--pages/card/card.wxml-->
+<view class="page">
+  <!-- 顶部导航 -->
+  <view class="nav-header">
+    <view class="nav-info">
+      <text class="nav-mode">{{modeText}}</text>
+      <text class="nav-progress">{{currentIndex + 1}}/{{totalCount}}</text>
+    </view>
+    <view class="nav-actions">
+      <view class="action-btn" bindtap="toggleCollection">
+        <text class="{{isCollected ? 'icon-collected' : 'icon-collect'}}">{{isCollected ? '❤️' : '🤍'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 成语卡片 -->
+  <view class="idiom-card card" wx:if="{{currentIdiom}}">
+    <!-- 卡片正面 -->
+    <view class="card-front" wx:if="{{!showBack}}">
+      <view class="idiom-main">
+        <view class="idiom-text">{{currentIdiom.idiom}}</view>
+        <view class="idiom-pinyin">{{currentIdiom.pinyin}}</view>
+        <view class="idiom-difficulty">
+          <text class="difficulty-tag difficulty-chuji" wx:if="{{currentIdiom.difficulty === '初级'}}">{{currentIdiom.difficulty}}</text>
+          <text class="difficulty-tag difficulty-zhongji" wx:if="{{currentIdiom.difficulty === '中级'}}">{{currentIdiom.difficulty}}</text>
+          <text class="difficulty-tag difficulty-gaoji" wx:if="{{currentIdiom.difficulty === '高级'}}">{{currentIdiom.difficulty}}</text>
+          <text class="category-tag">{{currentIdiom.category}}</text>
+        </view>
+      </view>
+      
+      <view class="card-actions">
+        <button class="btn-secondary" bindtap="showMeaning">查看释义</button>
+        <button class="btn-primary" bindtap="showStory">查看故事</button>
+      </view>
+    </view>
+
+    <!-- 卡片背面 - 释义 -->
+    <view class="card-back" wx:if="{{showBack && backType === 'meaning'}}">
+      <view class="back-header">
+        <view class="back-title">成语释义</view>
+        <view class="back-close" bindtap="flipCard">×</view>
+      </view>
+      <view class="meaning-content">
+        <view class="meaning-text">{{currentIdiom.meaning}}</view>
+        <view class="moral-text" wx:if="{{currentIdiom.moral}}">
+          <text class="moral-label">寓意：</text>
+          <text>{{currentIdiom.moral}}</text>
+        </view>
+      </view>
+      <view class="card-actions">
+        <button class="btn-secondary" bindtap="showStory">查看故事</button>
+        <button class="btn-primary" bindtap="markLearned">已掌握</button>
+      </view>
+    </view>
+
+    <!-- 卡片背面 - 故事 -->
+    <view class="card-back" wx:if="{{showBack && backType === 'story'}}">
+      <view class="back-header">
+        <view class="back-title">成语故事</view>
+        <view class="back-close" bindtap="flipCard">×</view>
+      </view>
+      <scroll-view class="story-content" scroll-y="true">
+        <view class="story-text">{{currentIdiom.story}}</view>
+        <view class="story-source" wx:if="{{currentIdiom.source}}">
+          <text class="source-label">出处：</text>
+          <text>{{currentIdiom.source}}</text>
+        </view>
+      </scroll-view>
+      <view class="card-actions">
+        <button class="btn-secondary" bindtap="showMeaning">查看释义</button>
+        <button class="btn-primary" bindtap="markLearned">已掌握</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="bottom-actions">
+    <button class="nav-btn" bindtap="previousCard" disabled="{{currentIndex === 0}}">
+      <text class="nav-icon">‹</text>
+      <text class="nav-text">上一个</text>
+    </button>
+    
+    <view class="center-actions">
+      <button class="action-btn" bindtap="flipCard">
+        <text class="action-icon">🔄</text>
+        <text class="action-text">翻转</text>
+      </button>
+      <button class="action-btn" bindtap="speakIdiom">
+        <text class="action-icon">🔊</text>
+        <text class="action-text">朗读</text>
+      </button>
+    </view>
+
+    <button class="nav-btn" bindtap="nextCard" disabled="{{currentIndex === totalCount - 1}}">
+      <text class="nav-text">下一个</text>
+      <text class="nav-icon">›</text>
+    </button>
+  </view>
+
+  <!-- 学习完成提示 -->
+  <view class="completion-modal" wx:if="{{showCompletion}}">
+    <view class="modal-content card">
+      <view class="completion-icon">🎉</view>
+      <view class="completion-title">学习完成！</view>
+      <view class="completion-stats">
+        <text>本次学习了 {{learnedCount}} 个成语</text>
+      </view>
+      <view class="completion-actions">
+        <button class="btn-secondary" bindtap="backToHome">返回首页</button>
+        <button class="btn-primary" bindtap="restartLearning">重新学习</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,68 @@
+<!--pages/story/story.wxml-->
+<view class="page">
+  <!-- 成语标题 -->
+  <view class="story-header card">
+    <view class="idiom-title">{{idiom.idiom}}</view>
+    <view class="idiom-pinyin">{{idiom.pinyin}}</view>
+    <view class="idiom-tags">
+      <text class="difficulty-tag difficulty-chuji" wx:if="{{idiom.difficulty === '初级'}}">{{idiom.difficulty}}</text>
+      <text class="difficulty-tag difficulty-zhongji" wx:if="{{idiom.difficulty === '中级'}}">{{idiom.difficulty}}</text>
+      <text class="difficulty-tag difficulty-gaoji" wx:if="{{idiom.difficulty === '高级'}}">{{idiom.difficulty}}</text>
+      <text class="category-tag">{{idiom.category}}</text>
+    </view>
+  </view>
+
+  <!-- 成语释义 -->
+  <view class="meaning-section card">
+    <view class="section-title">
+      <text class="title-icon">📖</text>
+      <text class="title-text">成语释义</text>
+    </view>
+    <view class="meaning-content">{{idiom.meaning}}</view>
+  </view>
+
+  <!-- 成语故事 -->
+  <view class="story-section card">
+    <view class="section-title">
+      <text class="title-icon">📚</text>
+      <text class="title-text">成语故事</text>
+    </view>
+    <scroll-view class="story-content" scroll-y="true">
+      <text class="story-text">{{idiom.story}}</text>
+    </scroll-view>
+  </view>
+
+  <!-- 出处来源 -->
+  <view class="source-section card" wx:if="{{idiom.source}}">
+    <view class="section-title">
+      <text class="title-icon">📜</text>
+      <text class="title-text">出处来源</text>
+    </view>
+    <view class="source-content">{{idiom.source}}</view>
+  </view>
+
+  <!-- 寓意道理 -->
+  <view class="moral-section card" wx:if="{{idiom.moral}}">
+    <view class="section-title">
+      <text class="title-icon">💡</text>
+      <text class="title-text">寓意道理</text>
+    </view>
+    <view class="moral-content">{{idiom.moral}}</view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <button class="action-btn collect-btn" bindtap="toggleCollection">
+      <text class="btn-icon">{{isCollected ? '❤️' : '🤍'}}</text>
+      <text class="btn-text">{{isCollected ? '已收藏' : '收藏'}}</text>
+    </button>
+    <button class="action-btn share-btn" bindtap="shareStory">
+      <text class="btn-icon">📤</text>
+      <text class="btn-text">分享</text>
+    </button>
+    <button class="action-btn speak-btn" bindtap="speakStory">
+      <text class="btn-icon">🔊</text>
+      <text class="btn-text">朗读</text>
+    </button>
+  </view>
+</view>
